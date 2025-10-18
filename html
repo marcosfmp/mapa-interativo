@@ -1,0 +1,131 @@
+<!DOCTYPE html> 
+<html lang="pt-BR"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <title>Mapa Urbex Global</title> 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.5/dist/leaflet.css" /> 
+    <style> 
+        #map { height: 100vh; width: 100%; } 
+        .popup-content img { width: 200px; height: auto; display: block; margin-top: 5px; } 
+    </style> 
+</head> 
+<body> 
+    <div id="map"></div> 
+ 
+    <script src="https://unpkg.com/leaflet@1.9.5/dist/leaflet.js"></script> 
+    <script> 
+        // Inicializa o mapa 
+        var map = L.map('map').setView([20, 0], 2); 
+ 
+        // Adiciona camadas de mapa 
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 
+            attribution: '&copy; OpenStreetMap contributors' 
+        }).addTo(map); 
+ 
+        // Lista de locais urbex 
+        var locations = [ 
+            { 
+                name: "Chernobyl / Pripyat", 
+                country: "Ucrânia", 
+                coords: [51.389, 30.099], 
+                description: "Cidade fantasma e usina nuclear abandonada. Apenas com tours 
+oficiais.", 
+                img: 
+"https://upload.wikimedia.org/wikipedia/commons/3/36/Pripyat_Amusement_Park.jpg", 
+                level: "vermelho" 
+            }, 
+            { 
+                name: "Hashima Island", 
+                country: "Japão", 
+                coords: [32.627, 129.738], 
+                description: "Ilha mineira abandonada, prédios em ruínas. Permitido com tours 
+especiais.", 
+                img: 
+"https://upload.wikimedia.org/wikipedia/commons/2/2e/Hashima_Island_from_Nagasaki.jpg", 
+                level: "amarelo" 
+            }, 
+            { 
+                name: "Beelitz-Heilstätten", 
+                country: "Alemanha", 
+                coords: [52.300, 13.100], 
+                description: "Antigo sanatório abandonado, arquitetura gótica. Guia 
+recomendado.", 
+                img: 
+"https://upload.wikimedia.org/wikipedia/commons/e/e2/Beelitz-Heilstätten_Hospital.jpg", 
+                level: "amarelo" 
+            }, 
+            { 
+                name: "Oradour-sur-Glane", 
+                country: "França", 
+                coords: [45.950, 1.020], 
+                description: "Vila destruída na Segunda Guerra, preservada como memorial. 
+Aberto a visitas guiadas.", 
+                img: 
+"https://upload.wikimedia.org/wikipedia/commons/7/73/Oradour-sur-Glane_01.JPG", 
+                level: "verde" 
+            }, 
+            { 
+                name: "Craco", 
+                country: "Itália", 
+                coords: [40.430, 16.050], 
+                description: "Cidade medieval abandonada, deslizamentos de terra. Parcialmente 
+acessível.", 
+                img: "https://upload.wikimedia.org/wikipedia/commons/6/63/Craco.jpg", 
+                level: "amarelo" 
+            }, 
+            { 
+                name: "Detroit Abandoned Buildings", 
+                country: "EUA", 
+                coords: [42.331, -83.045], 
+                description: "Fábricas e estações ferroviárias abandonadas. Parcialmente 
+acessível, riscos de desabamento.", 
+                img: 
+"https://upload.wikimedia.org/wikipedia/commons/7/79/Abandoned_building_in_Detroit.jpg", 
+                level: "vermelho" 
+            }, 
+            { 
+                name: "Kolmanskop", 
+                country: "Namíbia", 
+                coords: [-26.633, 15.250], 
+                description: "Cidade mineira abandonada engolida pela areia do deserto. 
+Permitido com tours guiados.", 
+                img: 
+"https://upload.wikimedia.org/wikipedia/commons/1/18/Kolmanskop_Desert.jpg", 
+                level: "verde" 
+            }, 
+            { 
+                name: "Varosha", 
+                country: "Chipre", 
+                coords: [35.120, 33.950], 
+                description: "Resort abandonado desde 1974. Restrito, exigida autorização.", 
+                img: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Varosha_2019.jpg", 
+                level: "vermelho" 
+            } 
+        ]; 
+ 
+        // Função para definir cor do marcador 
+        function getColor(level) { 
+            if (level === "verde") return "green"; 
+            if (level === "amarelo") return "orange"; 
+            if (level === "vermelho") return "red"; 
+            return "blue"; 
+        } 
+ 
+        // Adiciona marcadores 
+        locations.forEach(function(loc) { 
+            var marker = L.circleMarker(loc.coords, { 
+                color: getColor(loc.level), 
+                radius: 8, 
+                fillOpacity: 0.8 
+            }).addTo(map); 
+ 
+            marker.bindPopup( 
+                "<div class='popup-content'><strong>" + loc.name + " - " + loc.country + 
+"</strong><br>" + 
+                loc.description + "<br>" + 
+                "<img src='" + loc.img + "' alt='" + loc.name + "'></div>" 
+            ); 
+        }); 
+    </script> 
+</body> 
+</html> 
